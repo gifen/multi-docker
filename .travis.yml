@@ -9,16 +9,16 @@ script:
   - docker run -e CI=true gifen/react-test npm test -- --coverage
 
 after_success:
-  - docker build - gifen/complex-client ./client
-  - docker build - gifen/complex-nginx ./nginx
-  - docker build - gifen/complex-server ./server
-  - docker build - gifen/complex-worker ./worker 
+  - docker build - gifen/complex-client:latest ./client
+  - docker build - gifen/complex-nginx:latest ./nginx
+  - docker build - gifen/complex-server:latest ./server
+  - docker build - gifen/complex-worker:latest ./worker 
   # log in to docker cli
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take images and push them to docker hub
-  - docker push gifen/complex-client
-  - docker push gifen/complex-nginx
-  - docker push gifen/complex-server
-  - docker push gifen/complex-worker
+  - docker push gifen/complex-client:latest
+  - docker push gifen/complex-nginx:latest
+  - docker push gifen/complex-server:latest
+  - docker push gifen/complex-worker:latest
 
   
