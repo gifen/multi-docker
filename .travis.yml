@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t gifen/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run gifen/react-test npm test -- --coverage
+
+after_success:
+  - docker build - gifen/complex-client ./client
+  - docker build - gifen/complex-nginx ./nginx
+  - docker build - gifen/complex-server ./server
+  - docker build - gifen/complex-worker ./worker 
+  # log in to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take images and push them to docker hub
+  - docker push gifen/complex-client
+  - docker push gifen/complex-nginx
+  - docker push gifen/complex-server
+  - docker push gifen/complex-worker
+
+  
